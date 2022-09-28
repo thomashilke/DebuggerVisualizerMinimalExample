@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using TestDomain;
 
-var list = new List<double> { 1.0, 2.0, 3.0 };
+var list = new List<double> { 1.0 };
 var myGenericObject = new MyGenericObject<double>();
 var myObject = new MyObject();
 
