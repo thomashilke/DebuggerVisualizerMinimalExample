@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<OutputType>exe</OutputType>
+		<LangVersion>10.0</LangVersion>
+		<IsPackable>false</IsPackable>
+		<IsPublishable>true</IsPublishable>
+		<PublishDir>$(registry:HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders@Personal)\Visual Studio 2022\Visualizers\</PublishDir>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\TestDomain\TestDomain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Microsoft.VisualStudio.DebuggerVisualizers">
+			<HintPath>C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.DebuggerVisualizers.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="dotnet publish --no-build -c $(Configuration) -f $(TargetFramework) -o &quot;$(PublishDir)&quot;" />
+	</Target>
+</Project>
