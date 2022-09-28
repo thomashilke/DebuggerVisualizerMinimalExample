@@ -123,7 +123,7 @@ understanding of the documentation is correct.
 
 These undocumented limitations (only `IEnumerable<>` and non-generic
 types supported) makes this custom debugger visualizer pretty useless
-for my use cases, which is really a shame. The ability to customise
+for my use cases, which is really a shame. The ability to customize
 the display of data while debugging is an absolute superpower, and
 this infrastructure is not getting all the attention and support it
 really deserve. It even feels like it's becoming legacy and will be
