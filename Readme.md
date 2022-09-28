@@ -66,8 +66,8 @@ types](https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-vis
 as is also mentionned in the documentation of
 [DebuggerTypeProxy](https://learn.microsoft.com/en-us/visualstudio/debugger/using-debuggertypeproxy-attribute?view=vs-2022#using-generics-with-debuggertypeproxy).
 
-Some old documentation mention that debugger visualizers [support any
-managed class except the type `object` and
+Some pages in the documentation mention that debugger visualizers
+[support any managed class except the type `object` and
 `Array`](https://learn.microsoft.com/en-us/visualstudio/debugger/create-custom-visualizers-of-data?view=vs-2022#write-custom-visualizers).
 
 The following tables sums up each expression, which visualizer is
@@ -97,11 +97,23 @@ expected to be offered and which is effectively offered:
 |-------------------------------|-----------------------------------------------------------|-------------------------------------------|-----------------------------------------------------------|------------------------------------------------|-------------------------------------------------------------------------------|
 
 Moreover, if one decomment the declaration of the visualizer
-specifically for the closed type `SortedList<int, string>` and rebuild
-the solution (thus installing the custom visualizer), then not a
-single visualizer is offered anymore, not even the builtin ones
-shipped with Visual Studio. This issue has already been reported in
-2018, but has not been fixed and is still present.
+specifically for the closed type `SortedList<int, string>`:
+
+```csharp
+[assembly: DebuggerVisualizer(typeof(Visualizer),
+      typeof(VisualizerObjectSource),
+      Target = typeof(SortedList<int, string>),
+      Description = "SortedList<int, string> visualizer")]
+```
+
+and rebuild the solution (thus installing the custom visualizer), then
+**not a single visualizer is offered anymore**, not even the builtin
+ones shipped with Visual Studio. This issue has already been reported
+in 2018 (see
+[this](https://developercommunity.visualstudio.com/t/Certain-types-prevent-showing-all-custom/357701?entry=problem&ref=native&refTime=1664357954794&refUserId=7f8ea6a2-3b1a-45e6-bc98-9a79c77f38d3),
+and
+[this](https://stackoverflow.com/questions/47865026/which-types-prevent-visual-studio-visualizers-showing)),
+but has not been fixed and is still present.
 
 From the results above, it seems that the interface `IEnumerable<>`
 and/or `List<>` is/are somehow treated specially by Visual Studio, and
@@ -109,7 +121,7 @@ any other generic type is not supported as expected, even if
 open. Interfaces are not supported at all, despite being a type, if my
 understanding of the documentation is correct.
 
-These undocumented limitations (only `IEnumerable<>` and non generic
+These undocumented limitations (only `IEnumerable<>` and non-generic
 types supported) makes this custom debugger visualizer pretty useless
 for my use cases, which is really a shame. The ability to customise
 the display of data while debugging is an absolute superpower, and
